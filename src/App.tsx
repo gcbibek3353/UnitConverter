@@ -11,7 +11,7 @@ function App() {
 
   return (
     <currentUnitContext.Provider value={{currentUnit,setCurrentUnit}}>
-      <div>
+      <div className="flex items-center justify-evenly gap-5" >
         <SideBar />
         <MainComponent />
       </div>
