@@ -1,0 +1,11 @@
+*{
+    text-decoration: none;
+    list-style: none;
+}
+li{
+    cursor: pointer;
+}
+.focus{
+    background-color: black;
+    color: white;
+}
