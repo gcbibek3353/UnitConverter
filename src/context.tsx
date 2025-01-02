@@ -1,4 +1,9 @@
-import { createContext } from "react";
-import { Units } from "./Units";
+import React, { createContext } from "react";
+import { unitsTypes } from "./Units";
 
-export const currentUnitContext = createContext(null);
+export interface CurrentUnitContextType {
+    currentUnit: unitsTypes;
+    setCurrentUnit: React.Dispatch<React.SetStateAction<unitsTypes>>;
+ }
+
+export const currentUnitContext = createContext<CurrentUnitContextType | undefined>(undefined);

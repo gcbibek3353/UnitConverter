@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react'
 import { currentUnitContext } from './context'
-import { motion } from "motion/react"
+import { CurrentUnitContextType } from './context';
+
 
 const Main = () => {
-  const { currentUnit } = useContext(currentUnitContext);
+  const context = useContext(currentUnitContext) as CurrentUnitContextType;
   const [fromValue, setFromValue] = useState(0);
   const [toValue, setToValue] = useState(0);
   const [fromUnit, setFromUnit] = useState<string>();
@@ -19,8 +20,8 @@ const Main = () => {
     // console.log('from change handler called');
     setFromValue(fromValue);
     if (fromUnit && toUnit) {
-      const valueInDefaultUnit = fromValue / parseFloat(currentUnit.units[fromUnit]);
-      const valueInToUnit = valueInDefaultUnit * parseFloat(currentUnit.units[toUnit]);
+      const valueInDefaultUnit = fromValue / parseFloat(context.currentUnit.units[fromUnit]);
+      const valueInToUnit = valueInDefaultUnit * parseFloat(context.currentUnit.units[toUnit]);
       setToValue(valueInToUnit);
     }
   };
@@ -28,8 +29,8 @@ const Main = () => {
   const toChangeHandler = (toValue: number) => {
     setToValue(toValue);
     if (fromUnit && toUnit) {
-      const valueInDefaultUnit = toValue / parseFloat(currentUnit.units[toUnit]);
-      const valueInFromUnit = valueInDefaultUnit * parseFloat(currentUnit.units[fromUnit]);
+      const valueInDefaultUnit = toValue / parseFloat(context.currentUnit.units[toUnit]);
+      const valueInFromUnit = valueInDefaultUnit * parseFloat(context.currentUnit.units[fromUnit]);
       setFromValue(valueInFromUnit);
     }
   };
@@ -44,7 +45,7 @@ const Main = () => {
           <span className='text-4xl '>{fromUnit}</span>
         </div>
         <ul className='flex gap-2 flex-col md:mt-10 shadow-md bg-slate-200 border-slate-700 p-3'>
-          {Object.keys(currentUnit.units).map(unit => (
+          {Object.keys(context.currentUnit.units).map(unit => (
             <li
               key={unit}
               className={`${unit === fromUnit ? 'focus' : ''} p-2 rounded-md`}
@@ -67,7 +68,7 @@ const Main = () => {
           <span className='text-4xl '> {toUnit}</span>
         </div>
         <ul className='flex gap-2 flex-col md:mt-10 shadow-md bg-slate-200 border-slate-700 p-3'>
-          {Object.keys(currentUnit.units).map(unit => (
+          {Object.keys(context.currentUnit.units).map(unit => (
             <li
               key={unit}
               className={`${unit === toUnit ? 'focus' : ''} p-2 rounded-md`}
