@@ -1,57 +1,88 @@
 import React, { useContext, useState } from 'react'
 import { currentUnitContext } from './context'
+import { motion } from "motion/react"
 
 const Main = () => {
-    const {currentUnit} = useContext(currentUnitContext);
-    const [fromValue,setFromValue] = useState();
-    const [toValue,setToValue] = useState();
-    const [fromUnit,setFromUnit] = useState<string>();    
-    const [toUnit,setToUnit] = useState<string>();   
+  const { currentUnit } = useContext(currentUnitContext);
+  const [fromValue, setFromValue] = useState(0);
+  const [toValue, setToValue] = useState(0);
+  const [fromUnit, setFromUnit] = useState<string>();
+  const [toUnit, setToUnit] = useState<string>();
+  // console.log(`
+  //     from value ${fromValue}
+  //     to value ${toValue}
+  //     from Unit ${fromUnit}
+  //     to Unit ${toUnit}
+  //     `);
 
-    const fromChangeHandler = (e: any)=>{
-      setFromValue(e.target.value);
+  const fromChangeHandler = (fromValue: number) => {
+    // console.log('from change handler called');
+    setFromValue(fromValue);
+    if (fromUnit && toUnit) {
       const valueInDefaultUnit = fromValue / parseFloat(currentUnit.units[fromUnit]);
       const valueInToUnit = valueInDefaultUnit * parseFloat(currentUnit.units[toUnit]);
-      // console.log(valueInToUnit);
       setToValue(valueInToUnit);
     }
-    const toChangeHandler = (e: any)=>{
-      setToValue(e.target.value);
+  };
+
+  const toChangeHandler = (toValue: number) => {
+    setToValue(toValue);
+    if (fromUnit && toUnit) {
+      const valueInDefaultUnit = toValue / parseFloat(currentUnit.units[toUnit]);
+      const valueInFromUnit = valueInDefaultUnit * parseFloat(currentUnit.units[fromUnit]);
+      setFromValue(valueInFromUnit);
     }
+  };
 
   return (
-    <div className='flex gap-5 items-center'>
-        <div>
-            <label htmlFor="from">From </label>
-            <input onChange={(e: any)=>fromChangeHandler(e)} value={fromValue} className="border-2 border-black p-1 rounded-md"  type="number" id='from' />
-            <ul>
-                {
-                  Object.keys(currentUnit.units).map(unit =>{
-                    if(unit == fromUnit){
-                      return <li className='focus' onClick={()=>setFromUnit(unit)}  key={unit}>{unit}</li>
-                    }else
-                 return <li  onClick={()=>setFromUnit(unit)} key={unit}>{unit}</li>
-                })
-                }
-            </ul>
-        </div>
+    <div className='flex flex-col md:flex-row gap-5 md:h-screen w-full items-center justify-evenly'>
 
-        <div>
-        <label htmlFor="to">To </label>
-            <input onChange={(e: any)=>toChangeHandler(e)} value={toValue} className="border-2 border-black p-1 rounded-md"   type="number" id='to' />
-            <ul>
-                {
-                  Object.keys(currentUnit.units).map(unit =>{
-                    if(unit == toUnit){
-                      return <li onClick={()=>setToUnit(unit)}  className='focus' key={unit}>{unit}</li>
-                    }else
-                    return(
-                      <li onClick={()=>setToUnit(unit)} key={unit}>{unit}</li>
-                    )
-                })
-                }
-            </ul>
+      <div className='flex flex-col gap-3'>
+        <label htmlFor="from" className='text-5xl'>From </label> <br />
+        <div className='flex gap-5 flex-col md:flex-row'>
+          <input onChange={(e: React.ChangeEvent<HTMLInputElement>) => fromChangeHandler(parseFloat(e.target.value))} value={fromValue} className="border-2 border-slate-600 p-2 outline-none pl-3 rounded-md" type="number" id='from' />
+          <span className='text-4xl '>{fromUnit}</span>
         </div>
+        <ul className='flex gap-2 flex-col md:mt-10 shadow-md bg-slate-200 border-slate-700 p-3'>
+          {Object.keys(currentUnit.units).map(unit => (
+            <li
+              key={unit}
+              className={`${unit === fromUnit ? 'focus' : ''} p-2 rounded-md`}
+              onClick={() => {
+                setFromUnit(unit);
+                setFromValue(0);
+                setToValue(0);
+              }}
+            >
+              {unit}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className='flex flex-col gap-3'>
+        <label className='text-5xl' htmlFor="to">To</label>
+        <div className='flex gap-5 flex-col md:flex-row'>
+          <input onChange={(e: any) => toChangeHandler(e.target.value)} value={toValue} className="border-2 border-slate-600 p-2 outline-none pl-3 rounded-md" type="number" id='to' />
+          <span className='text-4xl '> {toUnit}</span>
+        </div>
+        <ul className='flex gap-2 flex-col md:mt-10 shadow-md bg-slate-200 border-slate-700 p-3'>
+          {Object.keys(currentUnit.units).map(unit => (
+            <li
+              key={unit}
+              className={`${unit === toUnit ? 'focus' : ''} p-2 rounded-md`}
+              onClick={() => {
+                setToUnit(unit)
+                setFromValue(0);
+                setToValue(0);
+              }
+              }
+            >
+              {unit}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }
