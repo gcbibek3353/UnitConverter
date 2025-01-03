@@ -14,7 +14,11 @@ export const Units: unitsTypes[] = [
             'millimeter' : '1000',
             'centimeter' : '100',
             'meter' : '1',
-            'kilometer' : '0.001'
+            'kilometer' : '0.001',
+            'mile' : '0.0006213689',
+            'yard' : '1.0936132983',
+            'foot' : '3.280839895',
+            'inch' : '39.37007874',
         }
     },
     {
@@ -24,7 +28,8 @@ export const Units: unitsTypes[] = [
             'squaremillimeter' : '1000000',
             'squareCentimeter' : '10000',
             'squareMeter' : '1',
-            'squareKilometer' : '0.000001'
+            'squareKilometer' : '0.000001',
+            'hectare' : '0.0001',
         }
     },
     {

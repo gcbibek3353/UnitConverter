@@ -17,7 +17,6 @@ const Main = () => {
   //     `);
 
   const fromChangeHandler = (fromValue: number) => {
-    // console.log('from change handler called');
     setFromValue(fromValue);
     if (fromUnit && toUnit) {
       const valueInDefaultUnit = fromValue / parseFloat(context.currentUnit.units[fromUnit]);
@@ -41,7 +40,13 @@ const Main = () => {
       <div className='flex flex-col gap-3'>
         <label htmlFor="from" className='text-5xl'>From </label> <br />
         <div className='flex gap-5 flex-col md:flex-row'>
-          <input onChange={(e: React.ChangeEvent<HTMLInputElement>) => fromChangeHandler(parseFloat(e.target.value))} value={fromValue} className="border-2 border-slate-600 p-2 outline-none pl-3 rounded-md" type="number" id='from' />
+          <input
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => fromChangeHandler(parseFloat(e.target.value))}
+            value={fromValue}
+            className="border-2 border-slate-600 p-2 outline-none pl-3 rounded-md"
+            type="number"
+            id='from'
+          />
           <span className='text-4xl '>{fromUnit}</span>
         </div>
         <ul className='flex gap-2 flex-col md:mt-10 shadow-md bg-slate-200 border-slate-700 p-3'>
